@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
 from py_qwop.config import COLORS
 from py_qwop.storage import STORAGE
 from py_qwop.ui.settings_dialog import SettingsDialog
