@@ -1,5 +1,6 @@
 """Physics simulation world manager coordinating Pymunk space, track, runner, and collisions."""
 
+import math
 from collections.abc import Callable
 
 import pymunk
@@ -38,18 +39,16 @@ class PhysicsWorld:
 
     def _setup_collision_handlers(self) -> None:
         """Register collision event hooks for game over and particle effects."""
-        # 1. Torso (type 10) & Head (type 11) hitting ground (types 1, 2)
-        def handle_body_crash(arbiter, space, data):
-            if not self.is_crashed and not self.is_victory:
-                # Check impact severity or contact
+        # 1. Head / Chest (type 11) hitting ground (types 1, 2)
+        def handle_head_crash(arbiter, space, data):
+            if not self.is_crashed and not self.is_victory and self.time_elapsed > 0.15:
                 self.is_crashed = True
                 if self.on_crash:
                     self.on_crash()
             return True
 
-        for body_type in [10, 11]:  # Torso, Head
-            for ground_type in [1, 2]:  # Track, Sand
-                self.space.on_collision(body_type, ground_type, begin=handle_body_crash)
+        for ground_type in [1, 2]:  # Track, Sand
+            self.space.on_collision(11, ground_type, begin=handle_head_crash)
 
         # 2. Footstep events (Foot type 14 hitting ground type 1 or sand type 2)
         def handle_footstep(arbiter, space, data):
@@ -73,6 +72,16 @@ class PhysicsWorld:
                 p_pressed=keys.get("calf_p", False),
             )
             self.time_elapsed += dt
+
+            # Check flat-on-ground fall condition
+            if self.time_elapsed > 0.4:
+                torso_y = self.runner.torso.position.y
+                head_y = self.runner.head.position.y
+                torso_angle = self.runner.torso.angle
+                if torso_y < 0.25 and head_y < 0.28 and abs(math.sin(torso_angle)) > 0.85:
+                    self.is_crashed = True
+                    if self.on_crash:
+                        self.on_crash()
 
             # Check victory condition
             if not self.is_victory and self.runner.get_progress_x() >= FINISH_LINE_X:

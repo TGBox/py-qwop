@@ -24,7 +24,7 @@ SAND_PIT_START_X = 100.0   # Long jump sand pit begins at finish line
 SAND_PIT_END_X = 115.0     # Sand pit ends
 
 # Gravity and physics parameters
-GRAVITY_Y = -18.0          # Snappy gravity in m/s^2 (slightly higher than 9.8 for responsive feel)
+GRAVITY_Y = -9.81          # Standard physics gravity in m/s^2
 RUNNER_MASS_SCALE = 1.0
 GROUND_FRICTION = 1.4      # High friction on tartan track for athletic shoes
 GROUND_ELASTICITY = 0.05

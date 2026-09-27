@@ -73,22 +73,32 @@ def test_ragdoll_controls():
     assert ragdoll.motor_hip_l.rate > 0.0
     assert ragdoll.motor_hip_r.rate < 0.0
 
-    # 3. Press O (Right knee flexes, left knee extends)
+    # 3. Press O (Right knee flexes backward < 0, left knee extends forward > 0)
     ragdoll.apply_controls(q_pressed=False, w_pressed=False, o_pressed=True, p_pressed=False)
-    assert ragdoll.motor_knee_r.rate > 0.0
-    assert ragdoll.motor_knee_l.rate < 0.0
+    assert ragdoll.motor_knee_r.rate < 0.0
+    assert ragdoll.motor_knee_l.rate > 0.0
     assert ragdoll.motor_knee_r.max_force > 100.0
 
-    # 4. Press P (Left knee flexes, right knee extends)
+    # 4. Press P (Left knee flexes backward < 0, right knee extends forward > 0)
     ragdoll.apply_controls(q_pressed=False, w_pressed=False, o_pressed=False, p_pressed=True)
-    assert ragdoll.motor_knee_l.rate > 0.0
-    assert ragdoll.motor_knee_r.rate < 0.0
+    assert ragdoll.motor_knee_l.rate < 0.0
+    assert ragdoll.motor_knee_r.rate > 0.0
 
-    # 5. Release all keys (relaxed state)
+    # 5. Release all keys (relaxed state with holding torque)
     ragdoll.apply_controls(q_pressed=False, w_pressed=False, o_pressed=False, p_pressed=False)
     assert ragdoll.motor_hip_r.rate == 0.0
     assert ragdoll.motor_knee_r.rate == 0.0
-    assert ragdoll.motor_hip_r.max_force < 50.0
+    assert ragdoll.motor_hip_r.max_force == ragdoll.HIP_HOLD_TORQUE
+    assert ragdoll.motor_knee_r.max_force == ragdoll.KNEE_HOLD_TORQUE
+
+
+def test_ragdoll_idle_stability():
+    """Verify runner stands stably without immediately crashing when idle."""
+    world = PhysicsWorld()
+    for _ in range(120):  # 2 full seconds of idle physics
+        world.update(1.0 / 60.0, {})
+        assert not world.is_crashed
+    assert world.runner.torso.position.y > 0.8  # Still standing upright
 
 
 def test_physics_world_simulation_step():
