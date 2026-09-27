@@ -1,0 +1,20 @@
+[project]
+name = "py_qwop"
+version = "0.1.0"
+description = "A python game adaptation of the game qwop."
+requires-python = ">=3.11"
+dependencies = [
+
+    "pyside6",
+
+]
+
+[project.scripts]
+py_qwop = "py_qwop:main"
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
