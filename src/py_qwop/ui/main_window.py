@@ -5,6 +5,7 @@ from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from py_qwop.config import (
+    COLORS,
     WINDOW_DEFAULT_HEIGHT,
     WINDOW_DEFAULT_WIDTH,
     WINDOW_MIN_HEIGHT,
@@ -26,6 +27,15 @@ class MainWindow(QMainWindow):
         # Central stacked container
         self.stack = QStackedWidget(self)
         self.setCentralWidget(self.stack)
+
+        self.setStyleSheet(f"""
+            QMainWindow {{
+                background-color: {COLORS.ui_dark_bg};
+            }}
+            QStackedWidget {{
+                background-color: {COLORS.ui_dark_bg};
+            }}
+        """)
 
         # Views
         self.main_menu = MainMenuWidget(self)

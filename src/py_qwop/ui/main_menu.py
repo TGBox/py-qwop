@@ -8,7 +8,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from py_qwop.config import COLORS
 from py_qwop.storage import STORAGE
 from py_qwop.ui.settings_dialog import SettingsDialog
@@ -24,6 +23,7 @@ class MainMenuWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setObjectName("MainMenuWidget")
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self._build_ui()
         self.refresh_stats()
 
@@ -32,7 +32,20 @@ class MainMenuWidget(QWidget):
             QWidget#MainMenuWidget {{
                 background-color: {COLORS.ui_dark_bg};
             }}
+            #MenuCard {{
+                background-color: {COLORS.ui_panel_bg};
+                border: 2px solid #2f3e52;
+                border-radius: 18px;
+            }}
+            #ScoresBox {{
+                background-color: {COLORS.ui_card_bg};
+                border: 1px solid #3d4d63;
+                border-radius: 10px;
+            }}
             QLabel {{
+                background: transparent;
+                border: none;
+                padding: 0px;
                 color: {COLORS.ui_text};
             }}
             QPushButton {{
@@ -62,26 +75,20 @@ class MainMenuWidget(QWidget):
 
         # Center Card
         card = QFrame()
+        card.setObjectName("MenuCard")
         card.setFixedWidth(560)
-        card.setStyleSheet(f"""
-            QFrame {{
-                background-color: {COLORS.ui_panel_bg};
-                border: 2px solid #2f3e52;
-                border-radius: 18px;
-                padding: 30px;
-            }}
-        """)
         card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(36, 32, 36, 32)
         card_layout.setSpacing(18)
         card_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Logo Title
         title_box = QVBoxLayout()
-        title_box.setSpacing(4)
+        title_box.setSpacing(6)
 
         lbl_title = QLabel("PY-QWOP")
         lbl_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        lbl_title.setStyleSheet("font-size: 42px; font-weight: 900; color: #3498db; letter-spacing: 4px;")
+        lbl_title.setStyleSheet("font-size: 44px; font-weight: 900; color: #3498db; letter-spacing: 4px;")
         title_box.addWidget(lbl_title)
 
         lbl_sub = QLabel("100m Ragdoll-Physik Meisterschaft")
@@ -92,15 +99,9 @@ class MainMenuWidget(QWidget):
 
         # Highscores Panel
         self.scores_box = QFrame()
-        self.scores_box.setStyleSheet(f"""
-            QFrame {{
-                background-color: {COLORS.ui_card_bg};
-                border: 1px solid #3d4d63;
-                border-radius: 10px;
-                padding: 12px 18px;
-            }}
-        """)
+        self.scores_box.setObjectName("ScoresBox")
         scores_layout = QVBoxLayout(self.scores_box)
+        scores_layout.setContentsMargins(18, 14, 18, 14)
         scores_layout.setSpacing(6)
 
         lbl_record_header = QLabel("🏆 PERSÖNLICHE REKORDE")
@@ -137,7 +138,7 @@ class MainMenuWidget(QWidget):
         btn_start.clicked.connect(self.start_game_requested.emit)
         card_layout.addWidget(btn_start)
 
-        btn_settings = QPushButton("Steuerung & Einstellungen")
+        btn_settings = QPushButton("Steuerung && Einstellungen")
         btn_settings.clicked.connect(self._open_settings)
         card_layout.addWidget(btn_settings)
 

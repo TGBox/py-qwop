@@ -125,8 +125,21 @@ class SettingsDialog(QDialog):
 
         # 1. Key Bindings Box
         kb_box = QFrame()
-        kb_box.setStyleSheet(f"background: {COLORS.ui_panel_bg}; border-radius: 10px; padding: 14px;")
+        kb_box.setObjectName("KBBox")
+        kb_box.setStyleSheet(f"""
+            #KBBox {{
+                background-color: {COLORS.ui_panel_bg};
+                border-radius: 10px;
+            }}
+            QLabel {{
+                background: transparent;
+                border: none;
+                padding: 0px;
+                color: {COLORS.ui_text};
+            }}
+        """)
         grid = QGridLayout(kb_box)
+        grid.setContentsMargins(16, 14, 16, 14)
         grid.setSpacing(10)
 
         actions = [
@@ -152,8 +165,18 @@ class SettingsDialog(QDialog):
 
         # 2. Gameplay Options
         opt_box = QFrame()
-        opt_box.setStyleSheet(f"background: {COLORS.ui_panel_bg}; border-radius: 10px; padding: 14px;")
+        opt_box.setObjectName("OptBox")
+        opt_box.setStyleSheet(f"""
+            #OptBox {{
+                background-color: {COLORS.ui_panel_bg};
+                border-radius: 10px;
+            }}
+            QCheckBox {{
+                background: transparent;
+            }}
+        """)
         opt_layout = QVBoxLayout(opt_box)
+        opt_layout.setContentsMargins(16, 14, 16, 14)
         opt_layout.setSpacing(10)
 
         self.chk_ghost = QCheckBox("Ghost-Runner anzeigen (Schattenläufer des besten Laufs)")

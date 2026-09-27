@@ -30,17 +30,19 @@ class GameOverDialog(QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.card = QFrame()
+        self.card.setObjectName("GameOverCard")
         self.card.setFixedWidth(440)
         self.card.setStyleSheet(f"""
-            QFrame {{
+            #GameOverCard {{
                 background-color: {COLORS.ui_panel_bg};
                 border: 2px solid {COLORS.ui_accent};
                 border-radius: 14px;
-                padding: 24px;
             }}
             QLabel {{
-                color: {COLORS.ui_text};
+                background: transparent;
                 border: none;
+                padding: 0px;
+                color: {COLORS.ui_text};
             }}
             QPushButton {{
                 background-color: {COLORS.ui_card_bg};

@@ -32,17 +32,19 @@ class PauseOverlay(QWidget):
 
         # Container card
         card = QFrame()
+        card.setObjectName("PauseCard")
         card.setFixedWidth(380)
         card.setStyleSheet(f"""
-            QFrame {{
+            #PauseCard {{
                 background-color: {COLORS.ui_panel_bg};
                 border: 2px solid {COLORS.ui_accent};
                 border-radius: 14px;
-                padding: 24px;
             }}
             QLabel {{
-                color: {COLORS.ui_text};
+                background: transparent;
                 border: none;
+                padding: 0px;
+                color: {COLORS.ui_text};
             }}
             QPushButton {{
                 background-color: {COLORS.ui_card_bg};
