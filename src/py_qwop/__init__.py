@@ -1,22 +1,23 @@
+"""py-qwop - Python adaptation of QWOP physics running game."""
+
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication
 
+from py_qwop.ui.main_window import MainWindow
 
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("py-qwop")
-        self.resize(800, 600)
-        label = QLabel("Hallo aus py-qwop!", alignment=Qt.AlignmentFlag.AlignCenter)
-        self.setCentralWidget(label)
+__version__ = "0.1.0"
+__all__ = ["MainWindow", "main"]
 
 
 def main() -> None:
+    """Application entry point."""
+    # Enable high-DPI scaling attributes if necessary
     app = QApplication(sys.argv)
+    app.setApplicationName("py-qwop")
+    app.setApplicationDisplayName("py-qwop – 100m Ragdoll Meisterschaft")
+
     window = MainWindow()
     window.show()
+
     sys.exit(app.exec())

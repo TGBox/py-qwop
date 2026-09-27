@@ -25,3 +25,8 @@ jobs:
 
       - name: Lint with Ruff
         run: uv run ruff check .
+
+      - name: Run Tests with Pytest
+        run: uv run pytest -v
+        env:
+          QT_QPA_PLATFORM: offscreen
