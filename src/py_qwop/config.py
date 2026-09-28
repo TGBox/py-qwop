@@ -13,7 +13,7 @@ TARGET_FPS = 60
 PHYSICS_SUB_STEPS = 4  # Sub-steps per frame for higher numerical stability
 
 # Physical scaling: 1 meter = 100 pixels in world coordinates
-PIXELS_PER_METER = 100.0
+PIXELS_PER_METER = 200.0
 
 # Track geometry (in meters)
 TRACK_START_X = -5.0       # Track extends behind start line
